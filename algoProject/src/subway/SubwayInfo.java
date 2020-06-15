@@ -13,10 +13,10 @@ public class SubwayInfo {
 	public static List<SubwayLine> lines = new ArrayList<>();
 	public static List<Station> stations = new ArrayList<>();
 	public static List<String[]> stationsInfo = new ArrayList<>();
+	public static int stationNumbers;
 	
 	
 	public void subwayMap() {
-
 
 		setAdjacentStation();
 		/*for (SubwayLine sl : lines) {
@@ -113,8 +113,8 @@ public class SubwayInfo {
                 		//System.out.println(sl.stations.get(i).getName() + "11" + sl.stations.get(i).line);
                 		sl.stations.get(i).setLat(Double.parseDouble(si[2]));
                 		sl.stations.get(i).setLon(Double.parseDouble(si[3]));
+                		sl.stations.get(i).setMapId(Integer.parseInt(si[4]));
 
-                		break;
                 	}
                 }
             }
@@ -141,10 +141,12 @@ public class SubwayInfo {
 				SubwayLine subwayLine = new SubwayLine();
 				subwayLine.name = splitSubway[0];
 				String[] splitStation = splitSubway[1].split(", ");
+				
 				for (String stations: splitStation) {
 					Boolean isTransferStation = stations.contains("#");
 					Station station = new Station();
 					//System.out.print(stations);
+					stationNumbers++;
 					if (!stations.contains("?") && !stations.contains("!")) {
 						if (isTransferStation) {
 							if (stations.contains("*")) {
@@ -202,8 +204,10 @@ public class SubwayInfo {
 							station.line = splitSubway[0];
 							station.isTransferStation = false;
 						}
-						SubwayInfo.stations.add(station);
+						
+						station.setStationId(stationNumbers);
 						subwayLine.stations.add(station);
+						SubwayInfo.stations.add(station);
 					}
 				}
 				lines.add(subwayLine);
@@ -258,7 +262,7 @@ public class SubwayInfo {
             }*/
 
             for (int row = 1; row < csvList.size(); row++) {
-                String[]  stationInfo = new String[4];
+                String[]  stationInfo = new String[5];
                 stationInfo[0] = csvList.get(row)[2];
                 stationInfo[1] = "";
                 if(csvList.get(row)[5].equals("TRUE"))
@@ -269,7 +273,7 @@ public class SubwayInfo {
                 	stationInfo[1] += "Green Line ";
                 if(csvList.get(row)[8].equals("TRUE"))
                 	stationInfo[1] += "Brown Line ";
-                if(csvList.get(row)[9].equals("TRUE"))
+                if(csvList.get(row)[9].equals("TRUE") || csvList.get(row)[10].equals("TRUE"))
                 	stationInfo[1] += "Purple Line ";
                 if(csvList.get(row)[11].equals("TRUE"))
                 	stationInfo[1] += "Yellow Line ";
@@ -284,6 +288,7 @@ public class SubwayInfo {
             	}*/
                 stationInfo[2] = location[0];
                 stationInfo[3] = location[1];
+                stationInfo[4] = csvList.get(row)[3];
                 
                 if (!stationInfo[1].equals(""))
                 	stationsInfo.add(stationInfo);

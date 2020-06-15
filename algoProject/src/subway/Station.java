@@ -12,6 +12,8 @@ public class Station {
     public List<String> transferLines = new ArrayList<>();
     public List<Station> adjacentStation = new ArrayList<>();
     public int feature = 0;	//1-only next; 2-only previous
+    public int mapId;
+    public int stationId;
     
 	public String getName() {
 		return name;
@@ -56,26 +58,6 @@ public class Station {
 		this.adjacentStation = adjacentStation;
 	}   
 	
-	@Override
-	public boolean equals(Object obj) {
-		if(this == obj)
-            return true;
-		else if(obj instanceof Station){
-            Station s = (Station)obj;
-            if(s.getName().equals(this.getName()))
-                return true;
-            else
-                return false;
-		}
-        else
-            return false;
-	}
-	
-	@Override
-	public int hashCode() {
-		return this.getName().hashCode();
-	}
-	
 	public Station() {
 		// TODO Auto-generated constructor stub
 	}
@@ -88,6 +70,18 @@ public class Station {
 	}
 	public void setFeature(int feature) {
 		this.feature = feature;
+	}
+	public int getStationId() {
+		return stationId;
+	}
+	public void setStationId(int stationId) {
+		this.stationId = stationId;
+	}
+	public int getMapId() {
+		return mapId;
+	}
+	public void setMapId(int mapId) {
+		this.mapId = mapId;
 	}
 
 }

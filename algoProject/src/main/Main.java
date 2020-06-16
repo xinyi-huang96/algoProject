@@ -2,6 +2,7 @@ package main;
 
 import subway.*;
 import distance.*;
+import graph.DijkstraSP;
 import graph.WDgraph;
 
 public class Main {
@@ -38,5 +39,8 @@ public class Main {
 */
 		WDgraph g = new WDgraph(sl);
 		//g.print();
+		System.out.println(DijkstraSP.DijkstraSP(g, "Western"));
+		DijkstraSP.printSP(g, "Western");
+		
 	}
 }

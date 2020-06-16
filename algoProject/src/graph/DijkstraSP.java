@@ -5,26 +5,22 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
+import subway.Station;
+
 public class DijkstraSP {
     private static  boolean[] marked;
     private static  int[] previous;
     private static double[] distance;
     private static int sourceNode;
 
-    private static boolean verifyNonNegative(WDgraph G){
-        for (List<DirectedEdge> edges: G.getAdj()){
-            for (DirectedEdge e: edges){
-                if (e.Weight() <= 0){
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    public static List<Integer> DijkstraSP(WDgraph G, int s){
-        if (!verifyNonNegative(G))
-            return null;
+    public static List<Integer> DijkstraSP(WDgraph G, String name){
+    	int s = 0;
+    	for(Station st : G.getStation()) {
+    		if(name.equals(st.name)) {
+    			s = st.stationId;
+    			break;
+    		}
+    	}
         sourceNode = s;
         marked = new boolean[G.order()];
         previous = new int[G.order()];
@@ -57,13 +53,7 @@ public class DijkstraSP {
             }
             // Check all neighbours and update distances           
             for (DirectedEdge edge : G.getAdj()[smallestNode]) {
-                int childNode = 0;
-            	for (int j = 0; j < G.order(); j++) {
-            		if(G.getAdj()[j].get(0).from().name.equals(edge.to().name)) {
-            			childNode = j;
-            			break;
-            		}
-            	}
+            	int childNode = edge.to().stationId;
                 double alt = distance[smallestNode] + edge.Weight();
                 if (alt < distance[childNode]) {
                     marked[childNode] = true;
@@ -83,10 +73,16 @@ public class DijkstraSP {
         return distance[v];
     }
     
-    public static void printSP(int v) {
-        ArrayList<Integer> shortestPath = new ArrayList<Integer>();
-        int thisNode = v;
-        while (thisNode > -1) {
+    public static void printSP(WDgraph G, String name) {
+    	int thisNode = 0;
+    	for(Station st : G.getStation()) {
+    		if(name.equals(st.name)) {
+    			thisNode = st.stationId;
+    			break;
+    		}
+    	}
+        ArrayList<Integer> shortestPath = (ArrayList<Integer>) DijkstraSP(G, name);
+        /*while (thisNode > -1) {
             shortestPath.add(thisNode);
             thisNode = previous[thisNode];
             if (thisNode == sourceNode) {
@@ -95,6 +91,14 @@ public class DijkstraSP {
             }
         }
         Collections.reverse(shortestPath);
-        System.out.println(shortestPath);
+        System.out.println(shortestPath);*/
+        for(int i : shortestPath) {
+        	for(Station st : G.getStation()) {
+        		if(i == st.stationId) {
+        			System.out.println(i + " : " + st.name);
+        			break;
+        		}
+        	}
+        }
     }
 }

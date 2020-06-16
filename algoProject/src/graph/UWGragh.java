@@ -56,6 +56,23 @@ public class UWGragh {
 		
 	}
 	
+	public List<Station> allStation() {
+		List<Station> all = new ArrayList<Station>();
+		for(int i = 0; i < adj.size(); i++) {
+			Station st = adj.get(i).get(0);
+			all.add(st);
+		}
+		return all;
+	}
+	
+	public List<Station> outNeighbors(int v) {
+		List<Station> nodes = new ArrayList<Station>();
+		for(Station st : adj.get(v)) {
+			nodes.add(st);
+		}
+		return nodes;
+	}
+	
 	public void print() {
         for (int i = 0; i < adj.size(); i++) {
         	List<Station> list = adj.get(i);

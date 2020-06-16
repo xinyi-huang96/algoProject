@@ -2,6 +2,7 @@ package main;
 
 import subway.*;
 import distance.*;
+import graph.BFS;
 import graph.DijkstraSP;
 import graph.UWGragh;
 import graph.WDgraph;
@@ -40,7 +41,10 @@ public class Main {
 */
 		/*Unweighted graph*/
 		UWGragh ug = new UWGragh(sl);
-		ug.print();
+		//ug.print();
+		/* BFS */
+		System.out.println(BFS.bfs(ug, "Western"));
+		BFS.printSP(ug, "Western");
 		
 		/* Weighted graph */
 		//WDgraph g = new WDgraph(sl);

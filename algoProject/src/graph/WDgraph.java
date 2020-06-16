@@ -1,40 +1,49 @@
 package graph;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import subway.Station;
+import subway.SubwayInfo;
 
 public class WDgraph {
 	
 	private int n;
 	private int m;
-	private List<Station> adj[];
+	private List<DirectedEdge> adj[];
 
 	/**
 	 * Initializes an empty graph
 	 */
-	public WDgraph(int nbVertices) {
-		this.n= nbVertices;
+	public WDgraph(SubwayInfo info) {
+		this.n= info.stationNumbers;
 		this.m = 0;
 		adj = new ArrayList[n];
-		for(int i = 0; i < n; i++) {
-			adj[i] = new ArrayList<Station>();		
+		int i = 0;
+		for(Station st : info.stations) {
+			adj[i] = new ArrayList<DirectedEdge>();	
+			int num = i;
+			if(st.isTransferStation) {	//if the station is transfer station, add the new adjacent Station
+				for(int j = 0; j < i; j++) {
+					if(i == 42)
+						System.out.print("* ");
+					if(!adj[j].isEmpty() && adj[j].get(0).from().name.equals(st.name)) {
+						num = j;
+						if(i == 42)
+							System.out.println(" /");
+						break;
+					}
+				}
+			}
+			for(Station adjSt : st.adjacentStation) {
+				if(i == 42) 
+					System.out.println("num = " + num + " st: " + st.name);
+				addEdge(num, st, adjSt);
+			}
+			if(num == i)
+				i++;
 		}
+		n = i;
 	}
 	
 	public int order() {
@@ -45,48 +54,19 @@ public class WDgraph {
 		return m;
 	}
 		
-	public List<Station>[] getAdj() {
+	public List<DirectedEdge>[] getAdj() {
 		return adj;
 	}
 
-	public void addEdge(int s, int t, double weight) {
-		//adj[s].add(new Station(s, t, weight));
-	}
-	
-	public List<Integer> vertices() {
-		List<Integer> nodes = new ArrayList<Integer>();
-		for(int i = 0; i < n; i++) {
-			nodes.add(adj[i].get(0).from());
-		}
-		return nodes;
-	}
-	
-	public List<Integer> inNeighbors(int v) {
-		List<Integer> nodes = new ArrayList<Integer>();
-		for(int i = 0; i < n; i++) {
-			for(DirectedEdge e : adj[i]) {
-				if(e.to() == v) {
-					nodes.add(e.from());
-					break;
-				}
-			}
-		}
-		return nodes;
-	}
-	
-	public List<Integer> outNeighbors(int v) {
-		List<Integer> nodes = new ArrayList<Integer>();
-		for(DirectedEdge e : adj[v]) {
-			nodes.add(e.to());
-		}
-		return nodes;
+	public void addEdge(int num, Station s, Station t) {
+		adj[num].add(new DirectedEdge(s, t));
 	}
 	
 	public void print() {
         for (int i = 0; i < n; i++) {
             System.out.print(i + ": ");
             for (DirectedEdge e : adj[i]) {
-                System.out.print("(" + e.from() + ", " + e.to() + ", " + e.Weight() + "), ");
+                System.out.print("(" + e.from().name + ", " + e.to().name + ", " + e.Weight() + "), ");
             }
             System.out.println();
         }

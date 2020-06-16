@@ -57,7 +57,13 @@ public class DijkstraSP {
             }
             // Check all neighbours and update distances           
             for (DirectedEdge edge : G.getAdj()[smallestNode]) {
-                int childNode = edge.to();
+                int childNode = 0;
+            	for (int j = 0; j < G.order(); j++) {
+            		if(G.getAdj()[j].get(0).from().name.equals(edge.to().name)) {
+            			childNode = j;
+            			break;
+            		}
+            	}
                 double alt = distance[smallestNode] + edge.Weight();
                 if (alt < distance[childNode]) {
                     marked[childNode] = true;

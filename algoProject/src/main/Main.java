@@ -2,6 +2,7 @@ package main;
 
 import subway.*;
 import distance.*;
+import graph.WDgraph;
 
 public class Main {
 
@@ -12,7 +13,8 @@ public class Main {
 		//newRead.readRoutes("gtfs/routes.txt");
 		SubwayInfo sl = new SubwayInfo();
 		sl.subwayMap();
-		for (SubwayLine sli : SubwayInfo.lines) {
+/*
+		for (SubwayLine sli : sl.lines) {
 			System.out.println(sli.name + " ");
 			for(Station st : sli.stations) {
 				System.out.print(st.getName() + " " + st.getLat() + " " + st.getLon() + " " + st.getFeature() + " ");
@@ -32,7 +34,9 @@ public class Main {
 				System.out.print(Calculate.getDistance(sli.stations.get(i-1), sli.stations.get(i)));
 			}
 		}
-
+	
+*/
+		WDgraph g = new WDgraph(sl);
+		//g.print();
 	}
-
 }

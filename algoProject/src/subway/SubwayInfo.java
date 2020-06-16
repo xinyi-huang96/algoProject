@@ -6,6 +6,8 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.lang.model.util.ElementScanner6;
+
 import com.csvreader.CsvReader;
 
 public class SubwayInfo {
@@ -18,7 +20,7 @@ public class SubwayInfo {
 	
 	public void subwayMap() {
 
-		setAdjacentStation();
+		 setAdjBFS();
 		/*for (SubwayLine sl : lines) {
 			System.out.println(sl.name + " ");
 			for(Station st : sl.stations) {
@@ -36,7 +38,79 @@ public class SubwayInfo {
 		}*/
 	}
 	
-	
+	public void setAdjBFS() {
+		setAdjacentStation();
+		for(SubwayLine sl : lines){
+            for(int i = 0; i < sl.stations.size(); i++) {
+            	if (sl.stations.get(i).name.equals("King Drive")) {
+            		sl.stations.get(i).adjStationBFS.add(sl.stations.get(i+1));
+            	}
+            	String subwayMap = "stationMap.txt";
+            	try {
+            		BufferedReader bufferedReader = new BufferedReader(new FileReader(subwayMap));
+        			String line;
+        			while ((line = bufferedReader.readLine()) != null) {
+        				String[] splitSubway = line.split(": ", 2);
+        				if(sl.stations.get(i).getLine().equals(splitSubway[0])) {
+        					String[] splitStation = splitSubway[1].split(", ");
+        					for(int j = 0; j < splitStation.length; j++) {
+        						if(j == 0) {
+        							if(splitStation[j].contains(sl.stations.get(i).getName())) {
+        								for(int k = 0; k < sl.stations.size(); k++) {
+        									if(splitStation[j+1].contains(sl.stations.get(k).getName())) {
+        										sl.stations.get(i).adjStationBFS.add(sl.stations.get(k));
+        									}
+        								}
+        							}
+        						} else if(j == (splitStation.length - 1)) {
+    								if(splitStation[j].contains(sl.stations.get(i).getName())) {
+    									for(int k = 0; k < sl.stations.size(); k++) {
+        									if(splitStation[j-1].contains(sl.stations.get(k).getName())) {
+        										sl.stations.get(i).adjStationBFS.add(sl.stations.get(k));
+        									}
+        								}
+    								}
+        						} else if(j > 0 && j < (splitStation.length - 1)) {
+        							if(splitStation[j].contains(sl.stations.get(i).getName()) && !splitStation[j].contains(";") && !splitStation[j].contains("?")) {
+    									for(int k = 0; k < sl.stations.size(); k++) {
+        									if(splitStation[j-1].contains(sl.stations.get(k).getName())) {
+        										sl.stations.get(i).adjStationBFS.add(sl.stations.get(k));
+        									}
+        									if(splitStation[j+1].contains(sl.stations.get(k).getName()) && i < k) {
+        										sl.stations.get(i).adjStationBFS.add(sl.stations.get(k));
+        									}
+        								}
+    								} else if(splitStation[j].contains(sl.stations.get(i).getName()) && splitStation[j].contains("!")) {
+    									for(int k = 0; k < sl.stations.size(); k++) {
+        									if(splitStation[j+1].contains(sl.stations.get(k).getName())) {
+        										sl.stations.get(i).adjStationBFS.add(sl.stations.get(k));
+        									}
+        								}	
+    								} else if(splitStation[j].contains(sl.stations.get(i).getName()) && splitStation[j].contains(";")) {
+    									for(int k = 0; k < sl.stations.size(); k++) {
+        									if(splitStation[j-1].contains(sl.stations.get(k).getName())) {
+        										sl.stations.get(i).adjStationBFS.add(sl.stations.get(k));
+        									}
+        								}	
+    								} else if(splitStation[j].contains(sl.stations.get(i).getName()) && splitStation[j].contains(";") && j == (splitStation.length - 2)) {
+    									for(int k = 0; k < sl.stations.size(); k++) {
+        									if(splitStation[j+1].contains(sl.stations.get(k).getName())) {
+        										sl.stations.get(i).adjStationBFS.add(sl.stations.get(k));
+        									}
+        								}	
+    									
+    								}
+        						}
+        					}
+        				}
+    				}
+        			
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+            }
+		}
+	}
 	
 	public void setAdjacentStation() {
 		setLocation();
@@ -83,7 +157,33 @@ public class SubwayInfo {
             		sl.stations.get(i).adjacentStation.add(sl.stations.get(i+1));
             	}
             	if(sl.stations.get(i).getFeature() == 2) {
-            		sl.stations.get(i).adjacentStation.add(sl.stations.get(i-1));
+            		
+            		String subwayMap = "stationMap.txt";
+            		try {
+            			BufferedReader bufferedReader = new BufferedReader(new FileReader(subwayMap));
+            			String line;
+            			while ((line = bufferedReader.readLine()) != null) {
+            				String[] splitSubway = line.split(": ", 2);
+            				if(sl.stations.get(i).getLine().equals(splitSubway[0])) {
+            					String[] splitStation = splitSubway[1].split(", ");
+            					for(int j = 0; j < splitStation.length; j++) {
+            						if(j == (splitStation.length - 1) && splitStation[j].contains(sl.stations.get(i).getName())) {
+            							sl.stations.get(i).adjacentStation.add(sl.stations.get(i-1));
+            						} else if(!splitStation[j].contains("?") && splitStation[j].contains(sl.stations.get(i).getName())){
+        								if(splitStation[j].contains(sl.stations.get(i).getName())) {
+        									for(int k = 0; k < sl.stations.size(); k++) {
+            									if(splitStation[j-1].contains(sl.stations.get(k).getName())) {
+            										sl.stations.get(i).adjacentStation.add(sl.stations.get(k));
+            									}
+            								}
+        								}
+        							}
+            					}
+            				}
+        				}
+            		} catch (Exception e) {
+            			e.printStackTrace();
+            		}
             	}
             	
             	

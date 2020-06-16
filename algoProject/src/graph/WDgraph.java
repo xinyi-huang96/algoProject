@@ -25,21 +25,16 @@ public class WDgraph {
 			int num = i;
 			if(st.isTransferStation) {	//if the station is transfer station, add the new adjacent Station
 				for(int j = 0; j < i; j++) {
-					if(i == 42)
-						System.out.print("* ");
-					if(!adj[j].isEmpty() && adj[j].get(0).from().name.equals(st.name)) {
+					if(!adj[j].isEmpty() && adj[j].get(0).from().mapId == st.mapId) {
 						num = j;
-						if(i == 42)
-							System.out.println(" /");
 						break;
 					}
 				}
 			}
 			for(Station adjSt : st.adjacentStation) {
-				if(i == 42) 
-					System.out.println("num = " + num + " st: " + st.name);
 				addEdge(num, st, adjSt);
 			}
+			st.setStationId(num);
 			if(num == i)
 				i++;
 		}
@@ -58,13 +53,22 @@ public class WDgraph {
 		return adj;
 	}
 
+	public List<Station> getStation() {
+		List<Station> allStation = new ArrayList<Station>();
+		for(int i = 0; i < n; i++) {
+			Station st = adj[i].get(0).from();
+			allStation.add(st);
+		}
+		return allStation;
+	}
+	
 	public void addEdge(int num, Station s, Station t) {
 		adj[num].add(new DirectedEdge(s, t));
 	}
 	
 	public void print() {
         for (int i = 0; i < n; i++) {
-            System.out.print(i + ": ");
+            System.out.print(adj[i].get(0).from().stationId + " : ");
             for (DirectedEdge e : adj[i]) {
                 System.out.print("(" + e.from().name + ", " + e.to().name + ", " + e.Weight() + "), ");
             }

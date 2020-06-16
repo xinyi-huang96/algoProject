@@ -6,7 +6,7 @@ import java.util.List;
 import subway.Station;
 import subway.SubwayInfo;
 
-public class UWGragh {
+public class UWGraph {
 	private int n;
 	private int m;
 	private List<List<Station>> adj;
@@ -14,7 +14,7 @@ public class UWGragh {
 	/**
 	 * Initializes an empty graph
 	 */
-	public UWGragh(SubwayInfo info) {
+	public UWGraph(SubwayInfo info) {
 		this.n= info.stationNumbers;
 		this.m = 0;
 		adj = new ArrayList<List<Station>>();

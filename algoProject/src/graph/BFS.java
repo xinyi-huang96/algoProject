@@ -14,7 +14,7 @@ public class BFS {
     private static int[] distance;
     private static int sourceNode;
     
-    public static List<Integer> bfs(UWGragh G, String rootName) {
+    public static List<Integer> bfs(UWGraph G, String rootName) {
     	int root = 0;
     	for(Station st : G.allStation()) {
     		if(rootName.equals(st.name)) {
@@ -56,7 +56,7 @@ public class BFS {
         return visitOrder;
     }
     
-    public static int cc(UWGragh G, String rootName) {
+    public static int cc(UWGraph G, String rootName) {
         int count = 0;
         marked = new boolean[G.order()];
         for (int i = 0; i < G.order(); i++) {
@@ -73,7 +73,7 @@ public class BFS {
         return count;
     }
     
-    public static boolean isConnected(UWGragh G, String rootName){
+    public static boolean isConnected(UWGraph G, String rootName){
         int count = cc(G, rootName);
         if(count != 0)
         	return true;
@@ -93,7 +93,7 @@ public class BFS {
         return previous[v];
     }
 
-    public static void printSP(UWGragh G, String rootName){
+    public static void printSP(UWGraph G, String rootName){
         ArrayList<Integer> shortestPath = (ArrayList<Integer>) bfs(G, rootName);
         for(int i : shortestPath) {
         	for(Station st : G.allStation()) {

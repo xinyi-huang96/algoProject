@@ -31,10 +31,10 @@ public class WDgraph {
 					}
 				}
 			}
+			st.setStationId(num);
 			for(Station adjSt : st.adjacentStation) {
 				addEdge(num, st, adjSt);
 			}
-			st.setStationId(num);
 			if(num == i)
 				i++;
 		}
@@ -70,7 +70,7 @@ public class WDgraph {
         for (int i = 0; i < n; i++) {
             System.out.print(adj[i].get(0).from().stationId + " : ");
             for (DirectedEdge e : adj[i]) {
-                System.out.print("(" + e.from().name + ", " + e.to().name + ", " + e.Weight() + "), ");
+                System.out.print("(" + e.from().name + ", " + e.to().name + ", " + e.to().stationId + ", " + e.Weight() + "), ");
             }
             System.out.println();
         }

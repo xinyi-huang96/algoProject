@@ -74,24 +74,7 @@ public class DijkstraSP {
     }
     
     public static void printSP(WDgraph G, String name) {
-    	int thisNode = 0;
-    	for(Station st : G.getStation()) {
-    		if(name.equals(st.name)) {
-    			thisNode = st.stationId;
-    			break;
-    		}
-    	}
         ArrayList<Integer> shortestPath = (ArrayList<Integer>) DijkstraSP(G, name);
-        /*while (thisNode > -1) {
-            shortestPath.add(thisNode);
-            thisNode = previous[thisNode];
-            if (thisNode == sourceNode) {
-                shortestPath.add(sourceNode);
-                break;
-            }
-        }
-        Collections.reverse(shortestPath);
-        System.out.println(shortestPath);*/
         for(int i : shortestPath) {
         	for(Station st : G.getStation()) {
         		if(i == st.stationId) {

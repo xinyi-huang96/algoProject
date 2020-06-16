@@ -3,6 +3,7 @@ package main;
 import subway.*;
 import distance.*;
 import graph.DijkstraSP;
+import graph.UWGragh;
 import graph.WDgraph;
 
 public class Main {
@@ -37,10 +38,16 @@ public class Main {
 		}
 	
 */
-		WDgraph g = new WDgraph(sl);
+		/*Unweighted graph*/
+		UWGragh ug = new UWGragh(sl);
+		ug.print();
+		
+		/* Weighted graph */
+		//WDgraph g = new WDgraph(sl);
 		//g.print();
-		System.out.println(DijkstraSP.DijkstraSP(g, "Western"));
-		DijkstraSP.printSP(g, "Western");
+		/* Dijkstra algorithm */
+		//System.out.println(DijkstraSP.DijkstraSP(g, "Western"));
+		//DijkstraSP.printSP(g, "Western");
 		
 	}
 }

@@ -36,6 +36,8 @@ public class SubwayInfo {
 		}*/
 	}
 	
+	
+	
 	public void setAdjacentStation() {
 		setLocation();
 		for(SubwayLine sl : lines){
@@ -83,6 +85,9 @@ public class SubwayInfo {
             	if(sl.stations.get(i).getFeature() == 2) {
             		sl.stations.get(i).adjacentStation.add(sl.stations.get(i-1));
             	}
+            	
+            	
+            	
             	/*for(Station st: sl.stations.get(i).adjacentStation) {
             		System.out.println(st.getName());
             	}*/

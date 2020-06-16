@@ -11,6 +11,7 @@ public class Station {
 	public Boolean isTransferStation;
     public List<String> transferLines = new ArrayList<>();
     public List<Station> adjacentStation = new ArrayList<>();
+    public List<Station> adjStationBFS = new ArrayList<>();
     public int feature = 0;	//1-only next; 2-only previous
     public int mapId;
     public int stationId;
@@ -82,6 +83,12 @@ public class Station {
 	}
 	public void setMapId(int mapId) {
 		this.mapId = mapId;
+	}
+	public List<Station> getAdjStationBFS() {
+		return adjStationBFS;
+	}
+	public void setAdjStationBFS(List<Station> adjStationBFS) {
+		this.adjStationBFS = adjStationBFS;
 	}
 
 }

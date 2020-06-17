@@ -35,7 +35,6 @@ public class DijkstraSP {
         ArrayList<Integer> visitOrder = new ArrayList<>();
         distance[s] = 0;
         marked[s] = true;
-        //visitOrder.add(s);
         while (!openedNodes.isEmpty()) {
             double smallestDistance = Double.MAX_VALUE;
             int smallestNode = -1;

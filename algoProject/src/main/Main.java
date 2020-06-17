@@ -10,17 +10,15 @@ import graph.WDgraph;
 public class Main {
 
 	public static void main(String[] args) {
-	       
-		//ReadFile newRead = new ReadFile();
-		//newRead.readStops("gtfs/stops.txt");
-		//newRead.readRoutes("gtfs/routes.txt");
+
 		SubwayInfo sl = new SubwayInfo();
 		sl.subwayMap();
-/*
+
+		/* read data */
 		for (SubwayLine sli : sl.lines) {
 			System.out.println(sli.name + " ");
 			for(Station st : sli.stations) {
-				System.out.print(st.getName() + " " + st.getLat() + " " + st.getLon() + " " + st.getFeature() + " ");
+				System.out.print(st.mapId + " " + st.getName() + " " + st.getLat() + " " + st.getLon() + " ");
 				System.out.print("Transfer line: ");
 				for(String s : st.transferLines) {
 					System.out.print(" " + s + " ");
@@ -32,19 +30,14 @@ public class Main {
 			}
 			System.out.println();
 		}
-		for (SubwayLine sli : SubwayInfo.lines) {
-			for(int i = 1; i < sli.stations.size(); i++) {
-				System.out.print(Calculate.getDistance(sli.stations.get(i-1), sli.stations.get(i)));
-			}
-		}
-	
-*/
+
+
 		/*Unweighted graph*/
-		UWGraph ug = new UWGraph(sl);
+		//UWGraph ug = new UWGraph(sl);
 		//ug.print();
 		/* BFS */
-		System.out.println(BFS.bfs(ug, "Western"));
-		BFS.printSP(ug, "Western");
+		//System.out.println(BFS.bfs(ug, "Western"));
+		//BFS.printSP(ug, "Western");
 		
 		/* Weighted graph */
 		//WDgraph g = new WDgraph(sl);

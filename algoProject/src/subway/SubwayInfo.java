@@ -19,32 +19,13 @@ public class SubwayInfo {
 	
 	
 	public void subwayMap() {
-
 		 setAdjBFS();
-		/*for (SubwayLine sl : lines) {
-			System.out.println(sl.name + " ");
-			for(Station st : sl.stations) {
-				System.out.print(st.getName() + " " + st.getLat() + " " + st.getLon() + " " + st.getFeature() + " ");
-				System.out.print("Transfer line: ");
-				for(String s : st.transferLines) {
-					System.out.print(" " + s + " ");
-				}
-				System.out.print("Connect stations: ");
-				for(Station stw: st.adjacentStation) {
-            		System.out.print(stw.getName() + " ");
-            	}
-			}
-			System.out.println();
-		}*/
 	}
 	
 	public void setAdjBFS() {
 		setAdjacentStation();
 		for(SubwayLine sl : lines){
             for(int i = 0; i < sl.stations.size(); i++) {
-            	if (sl.stations.get(i).name.equals("King Drive")) {
-            		sl.stations.get(i).adjStationBFS.add(sl.stations.get(i+1));
-            	}
             	String subwayMap = "stationMap.txt";
             	try {
             		BufferedReader bufferedReader = new BufferedReader(new FileReader(subwayMap));
@@ -103,8 +84,7 @@ public class SubwayInfo {
         						}
         					}
         				}
-    				}
-        			
+    				}	
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -116,7 +96,6 @@ public class SubwayInfo {
 		setLocation();
 		for(SubwayLine sl : lines){
             for(int i = 0; i < sl.stations.size(); i++) {
-            	//System.out.println(sl.stations.get(i).name + " " + sl.stations.get(i).line + " " + sl.stations.get(i).feature);
             	if(sl.stations.get(i).getFeature() == 1 || sl.stations.get(i).getFeature() == 3) {
             		String subwayMap = "stationMap.txt";
             		try {
@@ -151,13 +130,11 @@ public class SubwayInfo {
             			e.printStackTrace();
             		}
             	}
-            	
             	if(sl.stations.get(i).getFeature() == 0 || sl.stations.get(i).getFeature() == 3) {
             		sl.stations.get(i).adjacentStation.add(sl.stations.get(i-1));
             		sl.stations.get(i).adjacentStation.add(sl.stations.get(i+1));
             	}
-            	if(sl.stations.get(i).getFeature() == 2) {
-            		
+            	if(sl.stations.get(i).getFeature() == 2) {	
             		String subwayMap = "stationMap.txt";
             		try {
             			BufferedReader bufferedReader = new BufferedReader(new FileReader(subwayMap));
@@ -185,26 +162,8 @@ public class SubwayInfo {
             			e.printStackTrace();
             		}
             	}
-            	
-            	
-            	
-            	/*for(Station st: sl.stations.get(i).adjacentStation) {
-            		System.out.println(st.getName());
-            	}*/
-            	
-
             }
         }
-		/*for (SubwayLine sl : lines) {
-			System.out.println(sl.name + " ");
-			for(Station st : sl.stations) {
-				System.out.print(st.getName() + " " + st.getLat() + " " + st.getLon() + " " + st.getFeature() + " ");
-				for(String s : st.transferLines) {
-					System.out.print(" " + s + " ");
-				}
-			}
-			System.out.println();
-		}*/
 	}
 	
 	public void setLocation() {
@@ -212,10 +171,8 @@ public class SubwayInfo {
 		readLocFile();
 		for(SubwayLine sl : lines){
             for(int i = 0; i < sl.stations.size(); i++) {
-            	//System.out.println(sl.stations.get(i).name + " " + sl.stations.get(i).line);
             	for (String[] si : stationsInfo) {
                 	if (sl.stations.get(i).name.equals(si[0]) && si[1].contains(sl.stations.get(i).line)) {
-                		//System.out.println(sl.stations.get(i).getName() + "11" + sl.stations.get(i).line);
                 		sl.stations.get(i).setLat(Double.parseDouble(si[2]));
                 		sl.stations.get(i).setLon(Double.parseDouble(si[3]));
                 		sl.stations.get(i).setMapId(Integer.parseInt(si[4]));
@@ -224,16 +181,6 @@ public class SubwayInfo {
                 }
             }
         }
-		/*for (SubwayLine sl : lines) {
-			System.out.println(sl.name + " ");
-			for(Station st : sl.stations) {
-				System.out.print(st.getName() + " " + st.getLat() + " " + st.getLon() + " " + st.getFeature() + " ");
-				for(String s : st.transferLines) {
-					System.out.print(" " + s + " ");
-				}
-			}
-			System.out.println();
-		}*/
 	}
 	
 	public void readStationMap() {
@@ -245,12 +192,10 @@ public class SubwayInfo {
 				String[] splitSubway = line.split(": ", 2);
 				SubwayLine subwayLine = new SubwayLine();
 				subwayLine.name = splitSubway[0];
-				String[] splitStation = splitSubway[1].split(", ");
-				
+				String[] splitStation = splitSubway[1].split(", ");				
 				for (String stations: splitStation) {
 					Boolean isTransferStation = stations.contains("#");
 					Station station = new Station();
-					//System.out.print(stations);
 					stationNumbers++;
 					if (!stations.contains("?") && !stations.contains("!")) {
 						if (isTransferStation) {
@@ -309,7 +254,6 @@ public class SubwayInfo {
 							station.line = splitSubway[0];
 							station.isTransferStation = false;
 						}
-						
 						station.setStationId(stationNumbers);
 						subwayLine.stations.add(station);
 						SubwayInfo.stations.add(station);
@@ -320,52 +264,17 @@ public class SubwayInfo {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		/*for (SubwayLine sl : lines) {
-			System.out.println(sl.name + " ");
-			for(Station st : sl.stations) {
-				System.out.print(st.name + " ");
-				stations.indexOf(st);
-			}
-			System.out.println();
-		}*/
-		/*for (SubwayLine sl : lines) {
-			System.out.println(sl.name + " ");
-			for(Station st : sl.stations) {
-				System.out.print(st.getName() + " " + st.getLat() + " " + st.getLon() + " " + st.getFeature() + " ");
-				for(String s : st.transferLines) {
-					System.out.print(" " + s + " ");
-				}
-			}
-			System.out.println();
-		}*/
 	}
 	
-	
 	public void readLocFile() {
-		
 		try {
 			String filePath = "CTA_-_System_Information_-_List_of__L__Stops_-_Map.csv";
             ArrayList<String[]> csvList = new ArrayList<String[]>(); 
             CsvReader reader = new CsvReader(filePath,',',Charset.forName("GBK"));
-            //reader.readHeaders();
             while(reader.readRecord()){
                 csvList.add(reader.getValues());
             }
             reader.close();
-            /*for (int row = 1; row < csvList.size(); row++) {
-                System.out.print(csvList.get(row)[2]+",");//name
-                
-                System.out.print(csvList.get(row)[5]+",");//red
-                System.out.print(csvList.get(row)[6]+",");//blue
-                System.out.print(csvList.get(row)[7]+",");//green
-                System.out.print(csvList.get(row)[8]+",");//brown
-                System.out.print(csvList.get(row)[9]+",");//purple
-                System.out.print(csvList.get(row)[11]+",");//yellow
-                System.out.print(csvList.get(row)[12]+",");//pink
-                System.out.print(csvList.get(row)[13]+",");//orange
-                System.out.println(csvList.get(row)[14]+",");//location   
-            }*/
-
             for (int row = 1; row < csvList.size(); row++) {
                 String[]  stationInfo = new String[5];
                 stationInfo[0] = csvList.get(row)[2];
@@ -386,29 +295,19 @@ public class SubwayInfo {
                 	stationInfo[1] += "Pink Line ";
                 if(csvList.get(row)[13].equals("TRUE"))
                 	stationInfo[1] += "Orange Line ";
-                
                 String[] location = deleteChar(deleteChar(csvList.get(row)[14], '('), ')').split(", ");
-                /*for (String string : location) {
-            		System.out.println(string + " ");
-            	}*/
                 stationInfo[2] = location[0];
                 stationInfo[3] = location[1];
                 stationInfo[4] = csvList.get(row)[3];
-                
                 if (!stationInfo[1].equals(""))
                 	stationsInfo.add(stationInfo);
             }           
         } catch (Exception e) {
             e.printStackTrace();
         }
-		/*for (String[] strings : ReadStationsInfo) {
-    	for (String string : strings) {
-    		System.out.print(string + " ");
-    	}
-    	System.out.println();
-    }*/
 	}
 	
+	//detele "(" and ")" in the string
 	public String deleteChar(String source, char elemData) {
         String tmpString = "";
         tmpString += elemData;

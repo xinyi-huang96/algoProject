@@ -9,8 +9,8 @@ import java.util.Queue;
 import subway.Station;
 
 public class BFS {
-	private static  boolean[] marked;
-    private static  int[] previous;
+	private static boolean[] marked;
+    private static int[] previous;
     private static int[] distance;
     private static int sourceNode;
     
